@@ -110,6 +110,23 @@ def get_image_from_huggingface(description):
     return Image.open(io.BytesIO(response.content))
 
 
+def print_difference(original, new):
+    for item in original:
+        if item not in new:
+            print(item)
+
+def remove_duplicates(input_list):
+    seen = set()
+    white_list = ["G01 X0 Y0", "M03S15", "M100", "M101", "M03S35"]
+    output_list = []
+    for item in input_list:
+        if item not in seen:
+            if item not in white_list: 
+                seen.add(item)
+            output_list.append(item)
+    
+    return output_list
+
 
 def find_inverted_path(points, start_index):
     """

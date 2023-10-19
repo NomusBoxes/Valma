@@ -225,7 +225,7 @@ class GCodeVisualizer(tk.Tk):
                 self.gcode.append("M03S35")
 
         self.gcode.append("G01 X0 Y0")
-
+        #self.gcode = remove_duplicates(self.gcode)
 
     def visualize_gcode(self): 
         if self.canvas:
@@ -277,7 +277,6 @@ class GCodeVisualizer(tk.Tk):
         self.send_specific_gcode(contour_gcode, ARDUINO_PORT, BAUD_RATE)
 
     
-
         # Отображаем диалоговое окно
         answer = messagebox.askyesno("Подтверждение",
                                      "Поместите торт внутрь контура. Продолжить?")
@@ -329,7 +328,7 @@ class GCodeVisualizer(tk.Tk):
                         time.sleep(3)  # даем время на завершение текущей операции
                         ser.write("M03S35\n".encode())  # поднимаем шпиндель
                         time.sleep(0.5)
-                        ser.write("G0X0Y0 F1000\n".encode())  # двигаемся в начальную позицию
+                        ser.write("G0X0Y0 F1000 M101\n".encode())  # двигаемся в начальную позицию
                         print("Transmission stopped by user.")
                         self.stop_flag = False
                         return  # завершаем выполнение функции
