@@ -39,6 +39,11 @@ class GCodeVisualizer(tk.Tk):
         self.load_button = tk.Button(self, text="Открыть", command=self.load_image, width=15)
         self.load_button.pack(pady=20)
         
+        # self.port = None
+        # while self.port == None:
+        #     print("Ищем порт...")
+        #     self.port = self.detect_grbl_port()
+        #     time.sleep(1)
 
         self.canvas_frame = tk.Frame(self)
         self.canvas_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -50,6 +55,12 @@ class GCodeVisualizer(tk.Tk):
         self.raduis_label.pack()
         self.radius = ttk.Entry(self)
         self.radius.pack(pady=20)
+
+
+        # self.size_label = ttk.Label(self, text="Размер изображения")
+        # self.size_label.pack()
+        # self.img_size = ttk.Entry(self)
+        # self.img_size.pack(pady=20)
 
         self.send_gcode_button = tk.Button(self, text="Установить радиус", command=self.setRadius, width=15)
         self.send_gcode_button.pack(pady=20, padx=20)
@@ -74,8 +85,10 @@ class GCodeVisualizer(tk.Tk):
         for port in available_ports:
             try:
                 with serial.Serial(port, 115200, timeout=2) as ser:
-                    ser.write("?".encode())
+                    ser.write("G0".encode())
                     response = ser.readline().decode().strip()
+                    while not response:  # ждем ответа от Ардуино
+                        response = ser.readline().decode().strip()
                     if "Grbl" in response:
                         return port
             except:
