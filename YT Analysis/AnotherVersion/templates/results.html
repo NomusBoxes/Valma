@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Idea Generator</title>
+</head>
+<body>
+    <h1>YouTube Idea Generator</h1>
+
+    <div>
+        {% for idea in video_ideas %}
+            <p>{{ idea }}</p>
+            <button onclick="toggleComments({{ loop.index0 }})">Показать комментарии</button>
+            <div id="comments_{{ loop.index0 }}" style="display:none">
+                {% for comment in popular_videos[loop.index0].comments %}
+                    <p>{{ comment }}</p>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleComments(index) {
+            var commentsDiv = document.getElementById('comments_' + index);
+            if (commentsDiv.style.display === 'none') {
+                commentsDiv.style.display = 'block';
+            } else {
+                commentsDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
