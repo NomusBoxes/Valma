@@ -60,8 +60,8 @@ obj_queue = queue.Queue()
 
 created_objects = []
 
-gen = objGenerator.Generator()
-gen.createObj()
+# gen = objGenerator.Generator()
+# gen.createObj()
 
 
 running = True
@@ -76,10 +76,10 @@ while running:
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LCTRL]:
-            threading.Thread(target=request_image, args=(input_box1.get_text(), (player1.x, player1.y))).start()
+            threading.Thread(target=objGenerator.request_image, args=(input_box1.get_text(), (player1.x, player1.y))).start()
             input_box1.set_text("")
         if keys[pygame.K_RCTRL]:
-            threading.Thread(target=request_image, args=(input_box2.get_text(), (player2.x, player2.y))).start()
+            threading.Thread(target=objGenerator.request_image, args=(input_box2.get_text(), (player2.x, player2.y))).start()
             input_box2.set_text("")
 
     screen.fill(WHITE)
